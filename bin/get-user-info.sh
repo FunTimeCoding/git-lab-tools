@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
-SCRIPT_DIR=$(cd "$(dirname "${0}")"; pwd)
+DIR=$(dirname "${0}")
+SCRIPT_DIR=$(cd "${DIR}"; pwd)
 . "${SCRIPT_DIR}/../lib/gitlab.sh"
 KEY="${1}"
 JSON=$(${REQUEST} "${API_URL}/user")
