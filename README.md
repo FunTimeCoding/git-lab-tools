@@ -4,13 +4,13 @@
 
 This section explains how to configure this project.
 
-Example config. Default path is ~/.gitlab-tools.conf.
+Example config. The default location is ~/.gitlab-tools.conf.
 
 ```sh
 # Required.
 TOKEN=changeme
 # Optional. Default: http://localhost
-GITLAB_URL=http://gitlab.dev
+GITLAB_URL=http://example.org
 ```
 
 

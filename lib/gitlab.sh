@@ -59,7 +59,7 @@ fi
 
 if [ "${TOKEN}" = "" ]; then
     echo "TOKEN not set."
-    exit 1;
+    exit 1
 fi
 
 if [ "${GITLAB_URL}" = "" ]; then
@@ -67,4 +67,5 @@ if [ "${GITLAB_URL}" = "" ]; then
 fi
 
 export API_URL="${GITLAB_URL}/api/v3"
+# TODO: Remove the insecure argument.
 export REQUEST="curl --silent --insecure --header Content-Type:application/json -H PRIVATE-TOKEN:${TOKEN}"
