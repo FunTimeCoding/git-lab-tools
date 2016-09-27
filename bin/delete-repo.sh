@@ -1,19 +1,23 @@
 #!/bin/sh -e
 
-DIR=$(dirname "${0}")
-SCRIPT_DIR=$(cd "${DIR}"; pwd)
-. "${SCRIPT_DIR}/../lib/gitlab.sh"
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
 
-usage ()
+usage()
 {
-    echo "Usage: ${0} REPO_NAME"
-    exit 1
+    echo "Usage: ${0} REPOSITORY_NAME"
 }
 
-REPO_NAME="${1}"
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
 
-[ "${REPO_NAME}" = "" ] && usage
+REPOSITORY_NAME="${1}"
 
-REPO_ID=$("${SCRIPT_DIR}/get-repo-id.sh" -c "${CONFIG}" "${REPO_NAME}")
-JSON=$(${REQUEST} -X DELETE "${API_URL}/projects/${REPO_ID}")
-echo "${JSON}" | python -m json.tool
+if [ "${REPOSITORY_NAME}" = "" ]; then
+    usage
+    exit 1
+fi
+
+REPO_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-repo-id.sh" -c "${CONFIG}" "${REPOSITORY_NAME}")
+RESPONSE=$(${REQUEST} -X DELETE "${API_URL}/projects/${REPO_IDENTIFIER}")
+echo "${RESPONSE}" | python -m json.tool

@@ -1,14 +1,22 @@
 #!/bin/sh -e
 
-DIR=$(dirname "${0}")
-SCRIPT_DIR=$(cd "${DIR}"; pwd)
-. "${SCRIPT_DIR}/../lib/gitlab.sh"
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
+
+usage()
+{
+    echo "Usage: ${0} [KEY]"
+}
+
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+
 KEY="${1}"
-JSON=$(${REQUEST} "${API_URL}/user")
+RESPONSE=$(${REQUEST} "${API_URL}/user")
 
 if [ "${KEY}" = "" ]; then
-    echo "${JSON}" | python -m json.tool
+    echo "${RESPONSE}" | python -m json.tool
 else
-    RESULT=$(echo "${JSON}" | jsawk -n "out(this.${KEY})" )
+    RESULT=$(echo "${RESPONSE}" | jsawk -n "out(this.${KEY})" )
     echo "${RESULT}"
 fi

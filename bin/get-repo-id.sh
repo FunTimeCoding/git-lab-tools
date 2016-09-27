@@ -1,25 +1,30 @@
 #!/bin/sh -e
 
-DIR=$(dirname "${0}")
-SCRIPT_DIR=$(cd "${DIR}"; pwd)
-. "${SCRIPT_DIR}/../lib/gitlab.sh"
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
 
-usage ()
+usage()
 {
-    echo "Usage: ${0} REPO_NAME"
-    exit 1
+    echo "Usage: ${0} REPOSITORY_NAME"
 }
 
-REPO_NAME="${1}"
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
 
-[ "${REPO_NAME}" = "" ] && usage
+REPOSITORY_NAME="${1}"
 
-JSON=$(${REQUEST} "${API_URL}/projects/search/${REPO_NAME}")
-COUNT=$(echo "${JSON}" | jsawk -a "return this.length")
+if [ "${REPOSITORY_NAME}" = "" ]; then
+    usage
+
+    exit 1
+fi
+
+RESPONSE=$(${REQUEST} "${API_URL}/projects/search/${REPOSITORY_NAME}")
+COUNT=$(echo "${RESPONSE}" | jsawk -a "return this.length")
 
 if [ "${COUNT}" = "1" ]; then
-    RESULT_ID=$(echo "${JSON}" | jsawk -n "out(this.id)" )
-    echo "${RESULT_ID}"
+    RESULT_IDENTIFIER=$(echo "${RESPONSE}" | jsawk -n "out(this.id)" )
+    echo "${RESULT_IDENTIFIER}"
 else
     echo "Too many results: ${COUNT}"
 fi

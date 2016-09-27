@@ -1,24 +1,26 @@
 #!/bin/sh -e
 
-DIR=$(dirname "${0}")
-SCRIPT_DIR=$(cd "${DIR}"; pwd)
-. "${SCRIPT_DIR}/../lib/gitlab.sh"
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
 
-usage ()
+usage()
 {
     echo "Usage: ${0} USERNAME PASSWORD \"FULL NAME\" EMAIL"
-    exit 1
 }
+
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
 
 USERNAME="${1}"
 PASSWORD="${2}"
 NAME="${3}"
 EMAIL="${4}"
 
-[ "${USERNAME}" = "" ] && usage
-[ "${PASSWORD}" = "" ] && usage
-[ "${NAME}" = "" ] && usage
-[ "${EMAIL}" = "" ] && usage
+if [ "${USERNAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${NAME}" = "" ] || [ "${EMAIL}" = "" ]; then
+    usage
 
-JSON=$(${REQUEST} "${API_URL}/users" -d "{ \"username\": \"${USERNAME}\", \"password\": \"${PASSWORD}\", \"name\": \"${NAME}\", \"email\": \"${EMAIL}\" }")
-echo "${JSON}" | python -m json.tool
+    exit 1
+fi
+
+RESPONSE=$(${REQUEST} "${API_URL}/users" -d "{ \"username\": \"${USERNAME}\", \"password\": \"${PASSWORD}\", \"name\": \"${NAME}\", \"email\": \"${EMAIL}\" }")
+echo "${RESPONSE}" | python -m json.tool

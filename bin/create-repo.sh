@@ -1,18 +1,23 @@
 #!/bin/sh -e
 
-DIR=$(dirname "${0}")
-SCRIPT_DIR=$(cd "${DIR}"; pwd)
-. "${SCRIPT_DIR}/../lib/gitlab.sh"
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
 
-usage ()
+usage()
 {
     echo "Usage: ${0} REPO_NAME"
-    exit 1
 }
+
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
 
 REPO_NAME="${1}"
 
-[ "${REPO_NAME}" = "" ] && usage
+if [ "${REPO_NAME}" = "" ]; then
+    usage
 
-JSON=$(${REQUEST} "${API_URL}/projects" -d "{ \"name\": \"${REPO_NAME}\", \"public\": true }")
-echo "${JSON}" | python -m json.tool
+    exit 1
+fi
+
+RESPONSE=$(${REQUEST} "${API_URL}/projects" -d "{ \"name\": \"${REPO_NAME}\", \"public\": true }")
+echo "${RESPONSE}" | python -m json.tool

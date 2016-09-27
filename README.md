@@ -1,43 +1,54 @@
-# GitLab Tools
-
-
-## Operation
-
-Specify a config file.
-
-```sh
-./bin/script.sh -c /Users/shiin/.gitlab-tools-mine.conf
-```
-
+# GitlabTools
 
 ## Configuration
+
+This section explains how to configure this project.
 
 Example config. Default path is ~/.gitlab-tools.conf.
 
 ```sh
-# required
-TOKEN="changeme"
-# `GITLAB_URL` is optional and falls back to `http://localhost`.
-GITLAB_URL="http://gitlab.dev"
+# Required.
+TOKEN=changeme
+# Optional. Default: http://localhost
+GITLAB_URL=http://gitlab.dev
+```
+
+
+## Usage
+
+This section explains how to use this project.
+
+Show a list of owned repositories.
+
+```sh
+bin/list-repos.sh
+```
+
+Specify a config file for any command.
+
+```sh
+bin/list-repos.sh --config ~/.gitlab-tools-mine.conf
 ```
 
 
 ## Development
 
-Run any script verbosely if you want to debug it.
-
-```sh
-./bin/script.sh -v
-```
+This section explains how to use scripts that are intended to ease the development of this project.
 
 Install development tools.
 
 ```sh
-brew install shellcheck
+sudo apt-get install shellcheck
 ```
 
-Run code style check.
+Run style check and show all concerns.
 
 ```sh
 ./run-style-check.sh
+```
+
+Build the project like Jenkins.
+
+```sh
+./build.sh
 ```

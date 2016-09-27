@@ -1,23 +1,26 @@
 #!/bin/sh -e
 
-DIR=$(dirname "${0}")
-SCRIPT_DIR=$(cd "${DIR}"; pwd)
-. "${SCRIPT_DIR}/../lib/gitlab.sh"
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
 
-usage ()
+usage()
 {
-    echo "Usage: ${0} REPO_NAME TITLE DEPLOY_KEY"
-    exit 1
+    echo "Usage: ${0} REPOSITORY_NAME TITLE DEPLOY_KEY"
 }
 
-REPO_NAME="${1}"
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+
+REPOSITORY_NAME="${1}"
 TITLE="${2}"
 DEPLOY_KEY="${3}"
 
-[ "${REPO_NAME}" = "" ] && usage
-[ "${TITLE}" = "" ] && usage
-[ "${DEPLOY_KEY}" = "" ] && usage
+if [ "${REPOSITORY_NAME}" = "" ] || [ "${TITLE}" = "" ] || [ "${DEPLOY_KEY}" = "" ]; then
+    usage
 
-REPO_ID=$("${SCRIPT_DIR}/get-repo-id.sh" -c "${CONFIG}" "${REPO_NAME}")
-JSON=$(${REQUEST} "${API_URL}/projects/${REPO_ID}/keys" -d "{ \"title\": \"${TITLE}\", \"key\": \"${DEPLOY_KEY}\" }")
-echo "${JSON}" | python -m json.tool
+    exit 1
+fi
+
+REPOSITORY_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-repo-id.sh" -c "${CONFIG}" "${REPOSITORY_NAME}")
+RESPONSE=$(${REQUEST} "${API_URL}/projects/${REPOSITORY_IDENTIFIER}/keys" -d "{ \"title\": \"${TITLE}\", \"key\": \"${DEPLOY_KEY}\" }")
+echo "${RESPONSE}" | python -m json.tool
