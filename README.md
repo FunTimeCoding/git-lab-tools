@@ -18,7 +18,7 @@ GITLAB_URL=http://gitlab.dev
 
 This section explains how to use this project.
 
-Show a list of owned repositories.
+Show list of owned repositories.
 
 ```sh
 bin/list-repos.sh
