@@ -10,12 +10,46 @@ usage()
 
 # shellcheck source=/dev/null
 . "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
-JSON=$(${REQUEST} "${API_URL}/projects/owned")
+LOCATOR="${API_URL}/projects/owned"
 
 if [ "${1}" = --with-vendor ]; then
-    NAMES=$(echo "${JSON}" | jsawk -n "out(this.path_with_namespace)")
+    WITH_VENDOR=true
 else
-    NAMES=$(echo "${JSON}" | jsawk -n "out(this.name)")
+    WITH_VENDOR=false
 fi
 
-echo "${NAMES}"
+HEADERS=$(${REQUEST} --head "${LOCATOR}")
+PAGES=$(echo "${HEADERS}" | grep X-Total-Pages)
+PAGES="${PAGES#X-Total-Pages: *}"
+PAGES=$(echo "${PAGES}" | tr -d '\r')
+
+fetch_page()
+{
+    LOCAL_LOCATOR="${1}"
+
+    if [ "${WITH_VENDOR}" = true ]; then
+        QUERY="return this.path_with_namespace"
+    else
+        QUERY="return this.name"
+    fi
+
+    LOCAL_RESULT=$(${REQUEST} "${LOCAL_LOCATOR}" | jsawk "${QUERY}" | jq '.[]' | awk '{ gsub(/"/, "", $1); print $1 }')
+    echo "${LOCAL_RESULT}"
+}
+
+if [ "${PAGES}" = 1 ]; then
+    RESULT=$(fetch_page "${LOCATOR}")
+else
+    for PAGE in $(seq 1 "${PAGES}"); do
+        PAGE_RESULT=$(fetch_page "${LOCATOR}?page=${PAGE}")
+
+        if [ "${PAGE}" = 1 ]; then
+            RESULT="${PAGE_RESULT}"
+        else
+        RESULT="${RESULT}
+${PAGE_RESULT}"
+        fi
+    done
+fi
+
+echo "${RESULT}"

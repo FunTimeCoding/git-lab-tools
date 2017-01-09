@@ -68,4 +68,4 @@ fi
 
 export API_URL="${GITLAB_URL}/api/v3"
 # TODO: Remove the insecure argument.
-export REQUEST="curl --silent --insecure --header Content-Type:application/json -H PRIVATE-TOKEN:${TOKEN}"
+export REQUEST="curl --silent --insecure --header content-type:application/json --header private-token:${TOKEN}"
