@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
-OPERATING_SYSTEM=$(uname)
+SYSTEM=$(uname)
 
-if [ "${OPERATING_SYSTEM}" = Darwin ]; then
+if [ "${SYSTEM}" = Darwin ]; then
     FIND=gfind
 else
     FIND=find

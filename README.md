@@ -1,10 +1,10 @@
 # GitlabTools
 
-## Configuration
+## Setup
 
-This section explains how to configure this project.
+This section explains how to set up this project.
 
-Example config. The default location is ~/.gitlab-tools.conf.
+Create a configuration. The default location is ~/.gitlab-tools.sh.
 
 ```sh
 # Required.
@@ -17,6 +17,12 @@ GITLAB_URL=http://example.org
 ## Usage
 
 This section explains how to use this project.
+
+Run the main program.
+
+```sh
+bin/gt
+```
 
 Show list of owned repositories.
 
