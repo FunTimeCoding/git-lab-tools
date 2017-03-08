@@ -4,6 +4,7 @@ CONFIG=""
 
 function_exists()
 {
+    # shellcheck disable=SC2039
     declare -f -F "${1}" > /dev/null
 
     return $?
@@ -59,6 +60,7 @@ fi
 
 if [ "${TOKEN}" = "" ]; then
     echo "TOKEN not set."
+
     exit 1
 fi
 
