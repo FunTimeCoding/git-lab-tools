@@ -21,13 +21,21 @@ This section explains how to use this project.
 Show list of owned repositories.
 
 ```sh
-bin/list-repos.sh
+bin/list-repositories.sh
 ```
 
 Specify a config file for any command.
 
 ```sh
-bin/list-repos.sh --config ~/.gitlab-tools-mine.conf
+bin/list-repositories.sh --config ~/.gitlab-tools-mine.conf
+```
+
+Create and delete a repository.
+
+```sh
+bin/create-repository.sh example-project
+bin/create-repository.sh --visibility internal example-project
+bin/delete-repository.sh example-project
 ```
 
 

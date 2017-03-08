@@ -22,5 +22,5 @@ if [ "${USERNAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${NAME}" = "" ] || [ "
     exit 1
 fi
 
-RESPONSE=$(${REQUEST} "${API_URL}/users" -d "{ \"username\": \"${USERNAME}\", \"password\": \"${PASSWORD}\", \"name\": \"${NAME}\", \"email\": \"${EMAIL}\" }")
-echo "${RESPONSE}" | python -m json.tool
+BODY="{ \"username\": \"${USERNAME}\", \"password\": \"${PASSWORD}\", \"name\": \"${NAME}\", \"email\": \"${EMAIL}\" }"
+${REQUEST} "${API_URL}/users" -d "${BODY}" | python -m json.tool

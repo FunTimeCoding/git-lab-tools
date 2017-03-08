@@ -33,7 +33,7 @@ done
 OPTIND=1
 
 if [ "${CONFIG}" = "" ]; then
-    CONFIG="${HOME}/.gitlab-tools.conf"
+    CONFIG="${HOME}/.gitlab-tools.sh"
 fi
 
 if [ ! "$(command -v realpath 2>&1)" = "" ]; then
@@ -66,6 +66,6 @@ if [ "${GITLAB_URL}" = "" ]; then
     GITLAB_URL=http://localhost
 fi
 
-export API_URL="${GITLAB_URL}/api/v3"
+export API_URL="${GITLAB_URL}/api/v4"
 # TODO: Remove the insecure argument.
 export REQUEST="curl --silent --insecure --header content-type:application/json --header private-token:${TOKEN}"
