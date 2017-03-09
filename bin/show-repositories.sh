@@ -20,8 +20,7 @@ fi
 
 HEADERS=$(${REQUEST} --head "${LOCATOR}")
 PAGES=$(echo "${HEADERS}" | grep X-Total-Pages)
-PAGES="${PAGES#X-Total-Pages: *}"
-PAGES=$(echo "${PAGES}" | tr -d '\r')
+PAGES=$(echo "${PAGES#X-Total-Pages: *}" | tr -d '\r')
 
 fetch_page()
 {
@@ -52,4 +51,4 @@ ${PAGE_RESULT}"
     done
 fi
 
-echo "${RESULT}"
+echo "${RESULT}" | sort
