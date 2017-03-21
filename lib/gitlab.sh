@@ -68,6 +68,10 @@ if [ "${GITLAB_URL}" = "" ]; then
     GITLAB_URL=http://localhost
 fi
 
-export API_URL="${GITLAB_URL}/api/v4"
+if [ "${API_VERSION}" = "" ]; then
+    API_VERSION=4
+fi
+
+export API_URL="${GITLAB_URL}/api/v${API_VERSION}"
 # TODO: Remove the insecure argument.
 export REQUEST="curl --silent --insecure --header content-type:application/json --header private-token:${TOKEN}"
