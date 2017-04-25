@@ -10,7 +10,7 @@ usage()
 
 # shellcheck source=/dev/null
 . "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
-LOCATOR="${API_URL}/projects/owned"
+LOCATOR="${API_URL}/projects"
 
 if [ "${1}" = --with-vendor ]; then
     WITH_VENDOR=true
