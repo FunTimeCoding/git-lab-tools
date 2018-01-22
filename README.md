@@ -27,13 +27,13 @@ bin/gt
 Show list of owned repositories.
 
 ```sh
-bin/list-repositories.sh
+bin/show-repositories.sh
 ```
 
 Specify a config file for any command.
 
 ```sh
-bin/list-repositories.sh --config ~/.gitlab-tools-mine.conf
+bin/show-repositories.sh --config ~/.gitlab-tools-mine.conf
 ```
 
 Create and delete a repository.
