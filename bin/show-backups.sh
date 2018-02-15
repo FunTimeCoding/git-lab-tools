@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-sudo ls /var/opt/gitlab/backups
+sudo ls -alh /var/opt/gitlab/backups
