@@ -5,22 +5,20 @@ SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
 
 usage()
 {
-    echo "Usage: ${0} PROJECT TITLE KEY"
+    echo "Usage: ${0} PROJECT"
 }
 
 # shellcheck source=/dev/null
 . "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
 
 PROJECT="${1}"
-TITLE="${2}"
-KEY="${3}"
 
-if [ "${PROJECT}" = "" ] || [ "${TITLE}" = "" ] || [ "${KEY}" = "" ]; then
+if [ "${PROJECT}" = "" ]; then
     usage
 
     exit 1
 fi
 
 PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --config "${CONFIG}" "${PROJECT}")
-BODY="{ \"title\": \"${TITLE}\", \"key\": \"${KEY}\" }"
-${REQUEST} "${API_URL}/projects/${PROJECT_IDENTIFIER}/keys" -d "${BODY}" | python -m json.tool
+echo "Name Merged"
+${REQUEST} "${API_URL}/projects/${PROJECT_IDENTIFIER}/repository/branches" | jsawk -n "if (this.name != 'master') out(this.name + ' ' + this.merged)"

@@ -19,4 +19,4 @@ if [ "${NAME}" = "" ]; then
     exit 1
 fi
 
-${REQUEST} "${API_URL}/projects?search=${NAME}" | jsawk -n "out(this.id + ' ' + this.name)"
+${REQUEST} "${API_URL}/projects?search=${NAME}" | jsawk -n "if (this.name == '${NAME}') out(this.id)"

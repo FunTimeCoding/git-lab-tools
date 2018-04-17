@@ -19,5 +19,5 @@ if [ "${NAME}" = "" ]; then
     exit 1
 fi
 
-IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-repository-identifier.sh" --config "${CONFIG}" "${NAME}" | awk '{ print $1 }')
-${REQUEST} -X DELETE "${API_URL}/projects/${IDENTIFIER}" | python -m json.tool
+PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --config "${CONFIG}" "${NAME}")
+${REQUEST} -X DELETE "${API_URL}/projects/${PROJECT_IDENTIFIER}" | python -m json.tool

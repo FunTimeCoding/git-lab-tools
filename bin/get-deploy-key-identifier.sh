@@ -20,6 +20,6 @@ if [ "${TITLE}" = "" ] || [ "${REPOSITORY}" = "" ]; then
     exit 1
 fi
 
-PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-repository-identifier.sh" --config "${CONFIG}" "${REPOSITORY}" | awk '{ print $1 }')
+PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --config "${CONFIG}" "${REPOSITORY}")
 # TODO: This only shows enabled SSH keys of a project. All SSH keys can only be listed with an admin API key.
 ${REQUEST} "${API_URL}/projects/${PROJECT_IDENTIFIER}/deploy_keys" | jsawk -n "out(this.id)"

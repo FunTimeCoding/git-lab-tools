@@ -20,7 +20,7 @@ if [ "${REPOSITORY}" = "" ] || [ "${TITLE}" = "" ]; then
     exit 1
 fi
 
-PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-repository-identifier.sh" --config "${CONFIG}" "${REPOSITORY}" | awk '{ print $1 }')
+PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --config "${CONFIG}" "${REPOSITORY}")
 # TODO: Resolve the key title to the identifier correctly.
 #KEY_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-deploy-key-identifier.sh" --config "${CONFIG}" "${REPOSITORY}" "${TITLE}")
 KEY_IDENTIFIER="${TITLE}"
