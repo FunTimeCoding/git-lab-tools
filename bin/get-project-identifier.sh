@@ -9,7 +9,7 @@ usage()
 }
 
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+. "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
 
 NAME="${1}"
 
@@ -19,4 +19,4 @@ if [ "${NAME}" = "" ]; then
     exit 1
 fi
 
-${REQUEST} "${API_URL}/projects?search=${NAME}" | jsawk -n "if (this.name == '${NAME}') out(this.id)"
+${REQUEST} "${INTERFACE_LOCATOR}/projects?search=${NAME}" | jsawk -n "if (this.name == '${NAME}') out(this.id)"

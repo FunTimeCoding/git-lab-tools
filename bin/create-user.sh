@@ -9,7 +9,7 @@ usage()
 }
 
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+. "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
 
 USERNAME="${1}"
 PASSWORD="${2}"
@@ -23,4 +23,4 @@ if [ "${USERNAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${NAME}" = "" ] || [ "
 fi
 
 BODY="{ \"username\": \"${USERNAME}\", \"password\": \"${PASSWORD}\", \"name\": \"${NAME}\", \"email\": \"${EMAIL}\" }"
-${REQUEST} "${API_URL}/users" -d "${BODY}" | python -m json.tool
+${REQUEST} "${INTERFACE_LOCATOR}/users" -d "${BODY}" | python -m json.tool

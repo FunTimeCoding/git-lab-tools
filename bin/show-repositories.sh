@@ -9,8 +9,8 @@ usage()
 }
 
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
-LOCATOR="${API_URL}/projects"
+. "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
+LOCATOR="${INTERFACE_LOCATOR}/projects"
 
 if [ "${1}" = --with-vendor ]; then
     WITH_VENDOR=true

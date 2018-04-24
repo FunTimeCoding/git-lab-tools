@@ -9,7 +9,7 @@ usage()
 }
 
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+. "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
 
 NAME="${1}"
 
@@ -19,5 +19,5 @@ if [ "${NAME}" = "" ]; then
     exit 1
 fi
 
-PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --config "${CONFIG}" "${NAME}")
-${REQUEST} -X DELETE "${API_URL}/projects/${PROJECT_IDENTIFIER}" | python -m json.tool
+PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --configuration "${CONFIGURATION}" "${NAME}")
+${REQUEST} -X DELETE "${INTERFACE_LOCATOR}/projects/${PROJECT_IDENTIFIER}" | python -m json.tool

@@ -9,7 +9,7 @@ usage()
 }
 
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+. "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
 
 PROJECT="${1}"
 
@@ -19,6 +19,6 @@ if [ "${PROJECT}" = "" ]; then
     exit 1
 fi
 
-PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --config "${CONFIG}" "${PROJECT}")
+PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --configuration "${CONFIGURATION}" "${PROJECT}")
 echo "Name Merged"
-${REQUEST} "${API_URL}/projects/${PROJECT_IDENTIFIER}/repository/branches" | jsawk -n "if (this.name != 'master') out(this.name + ' ' + this.merged)"
+${REQUEST} "${INTERFACE_LOCATOR}/projects/${PROJECT_IDENTIFIER}/repository/branches" | jsawk -n "if (this.name != 'master') out(this.name + ' ' + this.merged)"

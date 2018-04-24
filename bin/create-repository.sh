@@ -9,7 +9,7 @@ usage()
 }
 
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+. "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
 
 while true; do
     case ${1} in
@@ -44,9 +44,9 @@ fi
 if [ "${NAMESPACE}" = "" ]; then
     BODY="{ \"name\": \"${NAME}\", \"visibility_level\": \"${VISIBILITY_LEVEL}\" }"
 else
-    IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-namespace-identifier.sh" --config "${CONFIG}" "${NAMESPACE}" | awk '{ print $1 }')
+    IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-namespace-identifier.sh" --configuration "${CONFIGURATION}" "${NAMESPACE}" | awk '{ print $1 }')
     BODY="{ \"name\": \"${NAME}\", \"visibility_level\": \"${VISIBILITY_LEVEL}\", \"namespace_id\": \"${IDENTIFIER}\" }"
 fi
 
-RESPONSE=$(${REQUEST} "${API_URL}/projects" -d "${BODY}")
+RESPONSE=$(${REQUEST} "${INTERFACE_LOCATOR}/projects" -d "${BODY}")
 echo "${RESPONSE}" | python -m json.tool

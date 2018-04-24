@@ -9,7 +9,7 @@ usage()
 }
 
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+. "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
 
 PROJECT="${1}"
 TITLE="${2}"
@@ -21,6 +21,6 @@ if [ "${PROJECT}" = "" ] || [ "${TITLE}" = "" ] || [ "${KEY}" = "" ]; then
     exit 1
 fi
 
-PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --config "${CONFIG}" "${PROJECT}")
+PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --configuration "${CONFIGURATION}" "${PROJECT}")
 BODY="{ \"title\": \"${TITLE}\", \"key\": \"${KEY}\" }"
-${REQUEST} "${API_URL}/projects/${PROJECT_IDENTIFIER}/keys" -d "${BODY}" | python -m json.tool
+${REQUEST} "${INTERFACE_LOCATOR}/projects/${PROJECT_IDENTIFIER}/keys" -d "${BODY}" | python -m json.tool

@@ -9,10 +9,10 @@ usage()
 }
 
 # shellcheck source=/dev/null
-. "${SCRIPT_DIRECTORY}/../lib/gitlab.sh"
+. "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
 
 KEY="${1}"
-RESPONSE=$(${REQUEST} "${API_URL}/user")
+RESPONSE=$(${REQUEST} "${INTERFACE_LOCATOR}/user")
 
 if [ "${KEY}" = "" ]; then
     echo "${RESPONSE}" | python -m json.tool
