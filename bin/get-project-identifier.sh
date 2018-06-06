@@ -28,10 +28,10 @@ else
     IDENTIFIERS=$(echo "${RESPONSE}" | jsawk -n "if (this.path_with_namespace == '${NAMESPACE}/${NAME}') out(this.id)")
 fi
 
-COUNT=$(echo "${IDENTIFIERS}" | wc -l | xargs)
+COUNT=$(echo -n "${IDENTIFIERS}" | grep -c '^')
 
-if [ "${COUNT}" = "" ]; then
-    echo "Empty search result."
+if [ "${COUNT}" = 0 ]; then
+    echo "Project not found."
 
     exit 1
 elif [ "${COUNT}" = 1 ]; then
