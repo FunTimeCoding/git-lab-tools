@@ -48,10 +48,5 @@ if [ "${BASE_LOCATOR}" = "" ]; then
     BASE_LOCATOR=http://localhost
 fi
 
-if [ "${INTERFACE_VERSION}" = "" ]; then
-    INTERFACE_VERSION=4
-fi
-
-export INTERFACE_LOCATOR="${BASE_LOCATOR}/api/v${INTERFACE_VERSION}"
-# TODO: Remove the insecure argument.
-export REQUEST="curl --silent --insecure --header content-type:application/json --header private-token:${TOKEN}"
+export INTERFACE_LOCATOR="${BASE_LOCATOR}/api/v4"
+export REQUEST="curl --silent --header content-type:application/json --header private-token:${TOKEN}"

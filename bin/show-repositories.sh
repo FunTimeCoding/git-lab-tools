@@ -19,8 +19,9 @@ else
 fi
 
 HEADERS=$(${REQUEST} --head "${LOCATOR}")
-PAGES=$(echo "${HEADERS}" | grep X-Total-Pages)
-PAGES=$(echo "${PAGES#X-Total-Pages: *}" | tr -d '\r')
+# GitLab uses capital letters in headers, but reverse proxies may lowercase them.
+PAGES=$(echo "${HEADERS}" | grep --extended-regexp '(X-Total-Pages|x-total-pages)' | tr '[:upper:]' '[:lower:]')
+PAGES=$(echo "${PAGES#x-total-pages: *}" | tr -d '\r')
 
 fetch_page()
 {
