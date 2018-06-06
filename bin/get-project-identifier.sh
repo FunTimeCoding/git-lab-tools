@@ -25,7 +25,7 @@ RESPONSE=$(${REQUEST} "${INTERFACE_LOCATOR}/projects?search=${NAME}")
 if [ "${NAMESPACE}" = "" ]; then
     IDENTIFIERS=$(echo "${RESPONSE}" | jsawk -n "if (this.name == '${NAME}') out(this.id)")
 else
-    IDENTIFIERS=$(echo "${RESPONSE}" | jsawk -n "if (this.name == '${NAME}') && (this.path_with_namespace == '${NAMESPACE}') out(this.id)")
+    IDENTIFIERS=$(echo "${RESPONSE}" | jsawk -n "if (this.name == '${NAME}' && this.path_with_namespace == '${NAMESPACE}') out(this.id)")
 fi
 
 COUNT=$(echo "${IDENTIFIERS}" | wc -l | xargs)
