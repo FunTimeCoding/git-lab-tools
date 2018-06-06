@@ -28,7 +28,7 @@ else
     IDENTIFIERS=$(echo "${RESPONSE}" | jsawk -n "if (this.path_with_namespace == '${NAMESPACE}/${NAME}') out(this.id)")
 fi
 
-COUNT=$(echo -n "${IDENTIFIERS}" | grep -c '^')
+COUNT=$(echo -n "${IDENTIFIERS}" | grep -c '^' || echo 0)
 
 if [ "${COUNT}" = 0 ]; then
     echo "Project not found."
