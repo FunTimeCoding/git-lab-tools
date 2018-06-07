@@ -11,6 +11,7 @@ usage()
 # shellcheck source=/dev/null
 . "${SCRIPT_DIRECTORY}/../lib/git_lab_tools.sh"
 
+DEBUG=true
 NAME="${1}"
 
 if [ "${NAME}" = "" ]; then
@@ -28,6 +29,11 @@ if [ "${CONTAINS_SLASH}" = true ]; then
 else
     RESPONSE=$(${REQUEST} "${INTERFACE_LOCATOR}/projects?search=${NAME}")
     IDENTIFIERS=$(echo "${RESPONSE}" | jsawk -n "if (this.name == '${NAME}') out(this.id)")
+fi
+
+if [ "${DEBUG}" = true ]; then
+    mkdir -p "${SCRIPT_DIRECTORY}/../tmp"
+    echo "${RESPONSE}" > "${SCRIPT_DIRECTORY}/../tmp/response.txt"
 fi
 
 COUNT=$(echo -n "${IDENTIFIERS}" | grep -c '^') || COUNT=0
