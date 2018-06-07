@@ -25,10 +25,10 @@ echo "${NAME}" | grep --quiet / && CONTAINS_SLASH=true || CONTAINS_SLASH=false
 if [ "${CONTAINS_SLASH}" = true ]; then
     NAME_WITHOUT_NAMESPACE="${NAME#*/}"
     RESPONSE=$(${REQUEST} "${INTERFACE_LOCATOR}/projects?search=${NAME_WITHOUT_NAMESPACE}&simple=true")
-    IDENTIFIERS=$(echo "${RESPONSE}" | jsawk -n "if (this.path_with_namespace == '${NAME}') out(this.id)")
+    IDENTIFIERS=$(echo "${RESPONSE}" | tr -d '\r\n' | jsawk -n "if (this.path_with_namespace == '${NAME}') out(this.id)")
 else
     RESPONSE=$(${REQUEST} "${INTERFACE_LOCATOR}/projects?search=${NAME}&simple=true")
-    IDENTIFIERS=$(echo "${RESPONSE}" | jsawk -n "if (this.name == '${NAME}') out(this.id)")
+    IDENTIFIERS=$(echo "${RESPONSE}" | tr -d '\r\n' | jsawk -n "if (this.name == '${NAME}') out(this.id)")
 fi
 
 if [ "${DEBUG}" = true ]; then
