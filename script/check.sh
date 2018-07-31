@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}" || exit 1; pwd)
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../lib/common.sh"
+
 if [ "${1}" = --help ]; then
     echo "Usage: ${0} [--ci-mode]"
 
@@ -23,10 +28,77 @@ else
     FIND='find'
 fi
 
-FILTER='^.*/(build|tmp|\.git|\.vagrant|\.idea)/.*$'
+MARKDOWN_FILES=$(${FIND} . -regextype posix-extended -name '*.md' ! -regex "${EXCLUDE_FILTER}" -printf '%P\n')
+BLACKLIST=''
+DICTIONARY=en_US
+mkdir -p tmp
+
+if [ -d documentation/dictionary ]; then
+    cat documentation/dictionary/*.dic > tmp/combined.dic
+else
+    touch tmp/combined.dic
+fi
+
+for FILE in ${MARKDOWN_FILES}; do
+    WORDS=$(hunspell -d "${DICTIONARY}" -p tmp/combined.dic -l "${FILE}" | sort | uniq)
+
+    if [ ! "${WORDS}" = '' ]; then
+        echo "${FILE}"
+
+        for WORD in ${WORDS}; do
+            BLACKLISTED=$(echo "${BLACKLIST}" | grep "${WORD}") || BLACKLISTED=false
+
+            if [ "${BLACKLISTED}" = false ]; then
+                if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
+                    grep --line-number "${WORD}" "${FILE}"
+                else
+                    # The equals character is required.
+                    grep --line-number --color=always "${WORD}" "${FILE}"
+                fi
+            else
+                echo "Blacklisted word: ${WORD}"
+            fi
+        done
+
+        echo
+    fi
+done
+
+TEX_FILES=$(${FIND} . -regextype posix-extended -name '*.tex' ! -regex "${EXCLUDE_FILTER}" -printf '%P\n')
+
+for FILE in ${TEX_FILES}; do
+    WORDS=$(hunspell -d "${DICTIONARY}" -p tmp/combined.dic -l -t "${FILE}")
+
+    if [ ! "${WORDS}" = '' ]; then
+        echo "${FILE}"
+
+        for WORD in ${WORDS}; do
+            STARTS_WITH_DASH=$(echo "${WORD}" | grep -q '^-') || STARTS_WITH_DASH=false
+
+            if [ "${STARTS_WITH_DASH}" = false ]; then
+                BLACKLISTED=$(echo "${BLACKLIST}" | grep "${WORD}") || BLACKLISTED=false
+
+                if [ "${BLACKLISTED}" = false ]; then
+                    if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
+                        grep --line-number "${WORD}" "${FILE}"
+                    else
+                        # The equals character is required.
+                        grep --line-number --color=always "${WORD}" "${FILE}"
+                    fi
+                else
+                    echo "Skip blacklisted: ${WORD}"
+                fi
+            else
+                echo "Skip invalid: ${WORD}"
+            fi
+        done
+
+        echo
+    fi
+done
 
 if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
-    FILES=$(${FIND} . -name '*.sh' -regextype posix-extended ! -regex "${FILTER}" -printf '%P\n')
+    FILES=$(${FIND} . -regextype posix-extended -name '*.sh' ! -regex "${EXCLUDE_FILTER}" -printf '%P\n')
 
     for FILE in ${FILES}; do
         FILE_REPLACED=$(echo "${FILE}" | sed 's/\//-/g')
@@ -34,7 +106,7 @@ if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
     done
 else
     # shellcheck disable=SC2016
-    SHELL_SCRIPT_CONCERNS=$(${FIND} . -name '*.sh' -regextype posix-extended ! -regex "${FILTER}" -exec sh -c 'shellcheck ${1} || true' '_' '{}' \;)
+    SHELL_SCRIPT_CONCERNS=$(${FIND} . -name '*.sh' -regextype posix-extended ! -regex "${EXCLUDE_FILTER}" -exec sh -c 'shellcheck ${1} || true' '_' '{}' \;)
 
     if [ ! "${SHELL_SCRIPT_CONCERNS}" = '' ]; then
         CONCERN_FOUND=true
@@ -44,7 +116,7 @@ else
 fi
 
 # shellcheck disable=SC2016
-EMPTY_FILES=$(${FIND} . -type f -empty -regextype posix-extended ! -regex "${FILTER}")
+EMPTY_FILES=$(${FIND} . -regextype posix-extended -type f -empty ! -regex "${EXCLUDE_FILTER}")
 
 if [ ! "${EMPTY_FILES}" = '' ]; then
     CONCERN_FOUND=true
@@ -60,7 +132,7 @@ if [ ! "${EMPTY_FILES}" = '' ]; then
 fi
 
 # shellcheck disable=SC2016
-TO_DOS=$(${FIND} . -regextype posix-extended -type f -and ! -regex "${FILTER}" -exec sh -c 'grep -Hrn TODO "${1}" | grep -v "${2}"' '_' '{}' '${0}' \;)
+TO_DOS=$(${FIND} . -regextype posix-extended -type f ! -regex "${EXCLUDE_FILTER}" -exec sh -c 'grep -Hrn TODO "${1}" | grep -v "${2}"' '_' '{}' '${0}' \;)
 
 if [ ! "${TO_DOS}" = '' ]; then
     if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
@@ -74,7 +146,7 @@ if [ ! "${TO_DOS}" = '' ]; then
 fi
 
 # shellcheck disable=SC2016
-SHELLCHECK_IGNORES=$(${FIND} . -regextype posix-extended -type f -and ! -regex "${FILTER}" -exec sh -c 'grep -Hrn "# shellcheck" "${1}" | grep -v "${2}"' '_' '{}' '${0}' \;)
+SHELLCHECK_IGNORES=$(${FIND} . -regextype posix-extended -type f ! -regex "${EXCLUDE_FILTER}" -exec sh -c 'grep -Hrn "# shellcheck" "${1}" | grep -v "${2}"' '_' '{}' '${0}' \;)
 
 if [ ! "${SHELLCHECK_IGNORES}" = '' ]; then
     if [ "${CONTINUOUS_INTEGRATION_MODE}" = true ]; then
