@@ -33,8 +33,6 @@ fetch_page()
     else
         echo "${LOCAL_RESULT}" | jq --raw-output '.[].name'
     fi
-
-    echo "${LOCAL_RESULT}"
 }
 
 if [ "${PAGES}" = 1 ]; then
