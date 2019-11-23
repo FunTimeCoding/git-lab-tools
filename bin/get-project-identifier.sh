@@ -36,7 +36,7 @@ if [ "${DEBUG}" = true ]; then
     echo "${RESPONSE}" > "${SCRIPT_DIRECTORY}/../tmp/response.txt"
 fi
 
-COUNT=$(echo -n "${IDENTIFIERS}" | grep -c '^') || COUNT=0
+COUNT=$(printf "%s" "${IDENTIFIERS}" | grep -c '^') || COUNT=0
 
 if [ "${COUNT}" = 0 ]; then
     echo "Project not found."
