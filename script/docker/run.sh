@@ -1,27 +1,22 @@
 #!/bin/sh -e
 
-# Development mode mounts the project root so it can be edited and re-ran without rebuilding the image and recreating the container.
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}" || exit 1; pwd)
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../../configuration/project.sh"
 
 if [ "${1}" = --development ]; then
     DEVELOPMENT=true
+    shift
 else
     DEVELOPMENT=false
 fi
 
-docker ps --all | grep --quiet git-lab-tools && FOUND=true || FOUND=false
-
-if [ "${FOUND}" = false ]; then
-    if [ "${DEVELOPMENT}" = true ]; then
-        docker create --name git-lab-tools --volume $(pwd):/git-lab-tools funtimecoding/git-lab-tools
-    else
-        docker create --name git-lab-tools funtimecoding/git-lab-tools
-    fi
-
-    # TODO: Specifying the entry point overrides CMD in Dockerfile. Is this useful, or should all sub commands go through one entry point script? I'm inclined to say one entry point script per project.
-    #docker create --name git-lab-tools --volume $(pwd):/git-lab-tools --entrypoint /git-lab-tools/bin/other.sh funtimecoding/git-lab-tools
-    #docker create --name git-lab-tools funtimecoding/git-lab-tools /git-lab-tools/bin/other.sh
-    # TODO: Run tests this way?
-    #docker create --name git-lab-tools funtimecoding/git-lab-tools /git-lab-tools/script/docker/test.sh
+if [ "${DEVELOPMENT}" = true ]; then
+    WORKING_DIRECTORY=$(pwd)
+    # shellcheck disable=SC2068
+    docker run --interactive --tty --rm --name "${PROJECT_NAME_DASH}" --volume "${WORKING_DIRECTORY}:/${PROJECT_NAME_DASH}" "${VENDOR_NAME_LOWER}/${PROJECT_NAME_DASH}" $@
+else
+    # shellcheck disable=SC2068
+    docker run --interactive --tty --rm --name "${PROJECT_NAME_DASH}" "${VENDOR_NAME_LOWER}/${PROJECT_NAME_DASH}" $@
 fi
-
-docker start --attach git-lab-tools

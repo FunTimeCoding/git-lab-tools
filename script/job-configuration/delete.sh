@@ -1,3 +1,8 @@
 #!/bin/sh -e
 
-~/src/jenkins-tools/bin/delete-job.sh git-lab-tools
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(cd "${DIRECTORY}" || exit 1; pwd)
+# shellcheck source=/dev/null
+. "${SCRIPT_DIRECTORY}/../../configuration/project.sh"
+
+~/src/jenkins-tools/bin/delete-job.sh "${PROJECT_NAME_DASH}"
