@@ -14,7 +14,7 @@ usage()
 REPOSITORY="${1}"
 TITLE="${2}"
 
-if [ "${REPOSITORY}" = "" ] || [ "${TITLE}" = "" ]; then
+if [ "${REPOSITORY}" = '' ] || [ "${TITLE}" = '' ]; then
     usage
 
     exit 1

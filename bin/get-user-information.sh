@@ -14,9 +14,9 @@ usage()
 KEY="${1}"
 RESPONSE=$(${REQUEST} "${INTERFACE_LOCATOR}/user")
 
-if [ "${KEY}" = "" ]; then
+if [ "${KEY}" = '' ]; then
     echo "${RESPONSE}" | python -m json.tool
 else
-    RESULT=$(echo "${RESPONSE}" | jsawk -n "out(this.${KEY})" )
+    RESULT=$(echo "${RESPONSE}" | jq --raw-output "(.[].${KEY})")
     echo "${RESULT}"
 fi

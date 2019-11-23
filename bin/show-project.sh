@@ -13,7 +13,7 @@ usage()
 
 PROJECT="${1}"
 
-if [ "${PROJECT}" = "" ]; then
+if [ "${PROJECT}" = '' ]; then
     usage
 
     exit 1

@@ -13,7 +13,7 @@ usage()
 
 PROJECT="${1}"
 
-if [ "${PROJECT}" = "" ]; then
+if [ "${PROJECT}" = '' ]; then
     usage
 
     exit 1
@@ -21,4 +21,4 @@ fi
 
 PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --configuration "${CONFIGURATION}" "${PROJECT}")
 echo "Name Merged"
-${REQUEST} "${INTERFACE_LOCATOR}/projects/${PROJECT_IDENTIFIER}/repository/branches" | jsawk -n "if (this.name != 'master') out(this.name + ' ' + this.merged)"
+${REQUEST} "${INTERFACE_LOCATOR}/projects/${PROJECT_IDENTIFIER}/repository/branches"  | jq --raw-output '.[] | select(.name != "master") | (.name + " " + (.merged | tostring))'

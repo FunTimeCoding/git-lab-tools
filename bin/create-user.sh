@@ -16,7 +16,7 @@ PASSWORD="${2}"
 NAME="${3}"
 EMAIL="${4}"
 
-if [ "${USERNAME}" = "" ] || [ "${PASSWORD}" = "" ] || [ "${NAME}" = "" ] || [ "${EMAIL}" = "" ]; then
+if [ "${USERNAME}" = '' ] || [ "${PASSWORD}" = '' ] || [ "${NAME}" = '' ] || [ "${EMAIL}" = '' ]; then
     usage
 
     exit 1

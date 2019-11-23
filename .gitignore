@@ -1,3 +1,9 @@
 build
 tmp
 .vagrant
+debian/files
+debian/debhelper-build-stamp
+debian/git-lab-tools
+debian/git-lab-tools.substvars
+documentation/man/*.1
+.scannerwork

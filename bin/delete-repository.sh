@@ -13,7 +13,7 @@ usage()
 
 NAME="${1}"
 
-if [ "${NAME}" = "" ]; then
+if [ "${NAME}" = '' ]; then
     usage
 
     exit 1

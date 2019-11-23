@@ -25,7 +25,7 @@ done
 
 NAME="${1}"
 
-if [ "${NAME}" = "" ]; then
+if [ "${NAME}" = '' ]; then
     usage
 
     exit 1
@@ -41,7 +41,7 @@ else
     VISIBILITY_LEVEL=0
 fi
 
-if [ "${NAMESPACE}" = "" ]; then
+if [ "${NAMESPACE}" = '' ]; then
     BODY="{ \"name\": \"${NAME}\", \"visibility_level\": \"${VISIBILITY_LEVEL}\" }"
 else
     IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-namespace-identifier.sh" --configuration "${CONFIGURATION}" "${NAMESPACE}" | awk '{ print $1 }')

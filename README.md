@@ -2,9 +2,7 @@
 
 ## Setup
 
-This section explains how to install and uninstall the project.
-
-Install project dependencies.
+Install project dependencies:
 
 ```sh
 script/setup.sh
@@ -13,63 +11,66 @@ script/setup.sh
 
 ## Usage
 
-This section explains how to use the project.
-
-Run the main program.
+Run the main program:
 
 ```sh
 bin/glt
 ```
 
-Show list of owned repositories.
+Run the main program inside the container:
 
 ```sh
-bin/show-repositories.sh
-```
-
-Specify a configuration file for any command.
-
-```sh
-bin/show-repositories.sh --configuration ~/.git-lab-tools-mine.sh
+docker run -it --rm funtimecoding/git-lab-tools
 ```
 
 
 ## Development
 
-This section explains how to improve the project.
-
-Configure Git on Windows before cloning. This avoids problems with Vagrant and VirtualBox.
+Configure Git on Windows before cloning:
 
 ```sh
 git config --global core.autocrlf input
 ```
 
-Create the development virtual machine on Linux and Darwin.
+Install NFS plug-in for Vagrant on Windows:
+
+```bat
+vagrant plugin install vagrant-winnfsd
+```
+
+Create the development virtual machine on Linux and Darwin:
 
 ```sh
 script/vagrant/create.sh
 ```
 
-Create the development virtual machine on Windows.
+Create the development virtual machine on Windows:
 
 ```bat
 script\vagrant\create.bat
 ```
 
-Run tests.
-
-```sh
-script/test.sh [--help]
-```
-
-Run style check.
+Run style check and metrics:
 
 ```sh
 script/check.sh [--help]
+script/measure.sh [--help]
 ```
 
-Build project.
+Build project:
 
 ```sh
 script/build.sh
+```
+
+Install Debian package:
+
+```sh
+sudo dpkg --install build/git-lab-tools_0.1.0-1_all.deb
+```
+
+Show files the package installed:
+
+```sh
+dpkg-query --listfiles git-lab-tools
 ```

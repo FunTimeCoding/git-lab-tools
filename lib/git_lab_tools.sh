@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-CONFIGURATION=""
+CONFIGURATION=''
 
 while true; do
     case ${1} in
@@ -38,13 +38,13 @@ fi
 # shellcheck source=/dev/null
 . "${CONFIGURATION}"
 
-if [ "${TOKEN}" = "" ]; then
+if [ "${TOKEN}" = '' ]; then
     echo "TOKEN not set."
 
     exit 1
 fi
 
-if [ "${BASE_LOCATOR}" = "" ]; then
+if [ "${BASE_LOCATOR}" = '' ]; then
     BASE_LOCATOR=http://localhost
 fi
 
