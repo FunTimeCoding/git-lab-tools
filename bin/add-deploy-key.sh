@@ -15,7 +15,7 @@ PROJECT="${1}"
 TITLE="${2}"
 KEY="${3}"
 
-if [ "${PROJECT}" = "" ] || [ "${TITLE}" = "" ] || [ "${KEY}" = "" ]; then
+if [ "${PROJECT}" = '' ] || [ "${TITLE}" = '' ] || [ "${KEY}" = '' ]; then
     usage
 
     exit 1

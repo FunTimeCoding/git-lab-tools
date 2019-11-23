@@ -26,14 +26,14 @@ PAGES=$(echo "${PAGES#x-total-pages: *}" | tr -d '\r')
 fetch_page()
 {
     LOCAL_LOCATOR="${1}"
+    LOCAL_RESULT=$(${REQUEST} "${LOCAL_LOCATOR}")
 
     if [ "${WITH_VENDOR}" = true ]; then
-        QUERY="return this.path_with_namespace"
+        echo "${LOCAL_RESULT}" | jq --raw-output '.[].path_with_namespace'
     else
-        QUERY="return this.name"
+        echo "${LOCAL_RESULT}" | jq --raw-output '.[].name'
     fi
 
-    LOCAL_RESULT=$(${REQUEST} "${LOCAL_LOCATOR}" | jsawk "${QUERY}" | jq '.[]' | awk '{ gsub(/"/, "", $1); print $1 }')
     echo "${LOCAL_RESULT}"
 }
 

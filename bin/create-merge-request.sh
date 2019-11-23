@@ -16,7 +16,7 @@ SOURCE_BRANCH="${2}"
 TARGET_BRANCH="${3}"
 TITLE="${4}"
 
-if [ "${PROJECT}" = "" ] || [ "${SOURCE_BRANCH}" = "" ] || [ "${TARGET_BRANCH}" = "" ] || [ "${TITLE}" = "" ]; then
+if [ "${PROJECT}" = '' ] || [ "${SOURCE_BRANCH}" = '' ] || [ "${TARGET_BRANCH}" = '' ] || [ "${TITLE}" = '' ]; then
     usage
 
     exit 1

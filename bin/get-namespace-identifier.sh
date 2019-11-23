@@ -13,10 +13,10 @@ usage()
 
 NAME="${1}"
 
-if [ "${NAME}" = "" ]; then
+if [ "${NAME}" = '' ]; then
     usage
 
     exit 1
 fi
 
-${REQUEST} "${INTERFACE_LOCATOR}/namespaces?search=${NAME}" | jsawk -n "out(this.id + ' ' + this.path)"
+${REQUEST} "${INTERFACE_LOCATOR}/namespaces?search=${NAME}" | jq --raw-output '(.[].id)'
