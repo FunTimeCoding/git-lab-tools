@@ -1,25 +1,31 @@
 #!/bin/sh -e
 
+DIRECTORY=$(dirname "${0}")
+SCRIPT_DIRECTORY=$(
+    cd "${DIRECTORY}"
+    pwd
+)
+
 CONFIGURATION=''
 
 while true; do
     case ${1} in
-        --configuration)
-            CONFIGURATION=${2-}
-            shift 2
-            ;;
-        --help)
-            echo "Global usage: ${0} [--help][--configuration CONFIGURATION]"
+    --configuration)
+        CONFIGURATION=${2-}
+        shift 2
+        ;;
+    --help)
+        echo "Global usage: ${0} [--help][--configuration CONFIGURATION]"
 
-            if command -v usage > /dev/null; then
-                usage
-            fi
+        if command -v usage >/dev/null; then
+            usage
+        fi
 
-            exit 0
-            ;;
-        *)
-            break
-            ;;
+        exit 0
+        ;;
+    *)
+        break
+        ;;
     esac
 done
 
@@ -46,6 +52,10 @@ fi
 
 if [ "${BASE_LOCATOR}" = '' ]; then
     BASE_LOCATOR=http://localhost
+fi
+
+if [ "${DEBUG}" = true ]; then
+    mkdir -p "${SCRIPT_DIRECTORY}/../tmp"
 fi
 
 export INTERFACE_LOCATOR="${BASE_LOCATOR}/api/v4"

@@ -1,10 +1,12 @@
 #!/bin/sh -e
 
 DIRECTORY=$(dirname "${0}")
-SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
+SCRIPT_DIRECTORY=$(
+    cd "${DIRECTORY}"
+    pwd
+)
 
-usage()
-{
+usage() {
     echo "Usage: ${0} PROJECT"
 }
 
@@ -21,4 +23,4 @@ fi
 
 PROJECT_IDENTIFIER=$("${SCRIPT_DIRECTORY}/get-project-identifier.sh" --configuration "${CONFIGURATION}" "${PROJECT}")
 echo "Name Merged"
-${REQUEST} "${INTERFACE_LOCATOR}/projects/${PROJECT_IDENTIFIER}/repository/branches"  | jq --raw-output '.[] | select(.name != "master") | (.name + " " + (.merged | tostring))'
+${REQUEST} "${INTERFACE_LOCATOR}/projects/${PROJECT_IDENTIFIER}/repository/branches" | jq --raw-output '.[] | select(.name != "master") | (.name + " " + (.merged | tostring))'

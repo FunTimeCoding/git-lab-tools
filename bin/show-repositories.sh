@@ -1,10 +1,12 @@
 #!/bin/sh -e
 
 DIRECTORY=$(dirname "${0}")
-SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
+SCRIPT_DIRECTORY=$(
+    cd "${DIRECTORY}"
+    pwd
+)
 
-usage()
-{
+usage() {
     echo "Usage: ${0} [--with-vendor]"
 }
 
@@ -23,8 +25,7 @@ HEADERS=$(${REQUEST} --head "${LOCATOR}")
 PAGES=$(echo "${HEADERS}" | grep --extended-regexp '(X-Total-Pages|x-total-pages)' | tr '[:upper:]' '[:lower:]')
 PAGES=$(echo "${PAGES#x-total-pages: *}" | tr -d '\r')
 
-fetch_page()
-{
+fetch_page() {
     LOCAL_LOCATOR="${1}"
     LOCAL_RESULT=$(${REQUEST} "${LOCAL_LOCATOR}")
 
@@ -44,7 +45,7 @@ else
         if [ "${PAGE}" = 1 ]; then
             RESULT="${PAGE_RESULT}"
         else
-        RESULT="${RESULT}
+            RESULT="${RESULT}
 ${PAGE_RESULT}"
         fi
     done
