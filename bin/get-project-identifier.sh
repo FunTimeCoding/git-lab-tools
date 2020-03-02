@@ -1,10 +1,12 @@
 #!/bin/sh -e
 
 DIRECTORY=$(dirname "${0}")
-SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
+SCRIPT_DIRECTORY=$(
+    cd "${DIRECTORY}"
+    pwd
+)
 
-usage()
-{
+usage() {
     echo "Usage: ${0} NAME"
 }
 
@@ -32,8 +34,7 @@ else
 fi
 
 if [ "${DEBUG}" = true ]; then
-    mkdir -p "${SCRIPT_DIRECTORY}/../tmp"
-    echo "${RESPONSE}" > "${SCRIPT_DIRECTORY}/../tmp/response.txt"
+    echo "${RESPONSE}" >"${SCRIPT_DIRECTORY}/../tmp/get-project-identifier.txt"
 fi
 
 COUNT=$(printf "%s" "${IDENTIFIERS}" | grep -c '^') || COUNT=0

@@ -1,10 +1,12 @@
 #!/bin/sh -e
 
 DIRECTORY=$(dirname "${0}")
-SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
+SCRIPT_DIRECTORY=$(
+    cd "${DIRECTORY}"
+    pwd
+)
 
-usage()
-{
+usage() {
     echo "Usage: ${0} [--visibility public|internal|private] NAME"
 }
 
@@ -13,13 +15,13 @@ usage()
 
 while true; do
     case ${1} in
-        --visibility)
-            VISIBILITY=${2-}
-            shift 2
-            ;;
-        *)
-            break
-            ;;
+    --visibility)
+        VISIBILITY=${2-}
+        shift 2
+        ;;
+    *)
+        break
+        ;;
     esac
 done
 
@@ -49,4 +51,9 @@ else
 fi
 
 RESPONSE=$(${REQUEST} "${INTERFACE_LOCATOR}/projects" -d "${BODY}")
+
+if [ "${DEBUG}" = true ]; then
+    echo "${RESPONSE}" >"${SCRIPT_DIRECTORY}/../tmp/create-repository.txt"
+fi
+
 echo "${RESPONSE}" | python -m json.tool

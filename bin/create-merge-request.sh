@@ -1,10 +1,12 @@
 #!/bin/sh -e
 
 DIRECTORY=$(dirname "${0}")
-SCRIPT_DIRECTORY=$(cd "${DIRECTORY}"; pwd)
+SCRIPT_DIRECTORY=$(
+    cd "${DIRECTORY}"
+    pwd
+)
 
-usage()
-{
+usage() {
     echo "Usage: ${0} PROJECT SOURCE_BRANCH TARGET_BRANCH TITLE"
 }
 
