@@ -34,6 +34,7 @@ else
 fi
 
 if [ "${DEBUG}" = true ]; then
+    mkdir -p "${SCRIPT_DIRECTORY}/../tmp"
     echo "${RESPONSE}" >"${SCRIPT_DIRECTORY}/../tmp/get-project-identifier.txt"
 fi
 
