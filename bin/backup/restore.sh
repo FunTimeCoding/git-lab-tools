@@ -1,6 +1,7 @@
 #!/bin/sh -e
 
 sudo cp tmp/dump_gitlab_backup.tar /var/opt/gitlab/backups/dump_gitlab_backup.tar
+sudo cp tmp/gitlab-secrets.json /etc/gitlab/gitlab-secrets.json
 sudo chown git:git /var/opt/gitlab/backups/dump_gitlab_backup.tar
 sudo gitlab-ctl stop puma
 sudo gitlab-ctl stop sidekiq
