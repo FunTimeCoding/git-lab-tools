@@ -6,3 +6,4 @@ sudo
 uniq
 sshd
 NFS
+rsyncable
