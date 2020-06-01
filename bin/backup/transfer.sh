@@ -10,3 +10,4 @@ if [ "${HOST}" = '' ] || [ "${PORT}" = '' ]; then
 fi
 
 scp -P "${PORT}" tmp/dump_gitlab_backup.tar "${HOST}:~/src/git-lab-tools/tmp"
+scp -P "${PORT}" tmp/gitlab-secrets.json "${HOST}:~/src/git-lab-tools/tmp"
