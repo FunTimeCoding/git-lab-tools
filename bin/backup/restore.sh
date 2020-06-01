@@ -1,9 +1,7 @@
 #!/bin/sh -e
 
 sudo cp tmp/dump_gitlab_backup.tar /var/opt/gitlab/backups/dump_gitlab_backup.tar
-sudo chmod 600 /var/opt/gitlab/backups/dump_gitlab_backup.tar
 sudo chown git:git /var/opt/gitlab/backups/dump_gitlab_backup.tar
-sudo gitlab-ctl stop unicorn
 sudo gitlab-ctl stop puma
 sudo gitlab-ctl stop sidekiq
 sudo gitlab-ctl status
