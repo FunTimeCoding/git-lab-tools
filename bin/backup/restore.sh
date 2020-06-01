@@ -4,7 +4,7 @@ sudo cp tmp/dump_gitlab_backup.tar /var/opt/gitlab/backups/dump_gitlab_backup.ta
 sudo chown git:git /var/opt/gitlab/backups/dump_gitlab_backup.tar
 sudo gitlab-ctl stop puma
 sudo gitlab-ctl stop sidekiq
-sudo gitlab-ctl status
+sudo gitlab-ctl status || true
 
 echo "Confirm status is correct [y/N]"
 read -r CONTINUE
