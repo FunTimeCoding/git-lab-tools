@@ -16,4 +16,12 @@ fi
 sudo gitlab-backup restore BACKUP=dump
 sudo gitlab-ctl reconfigure
 sudo gitlab-ctl start
+
+echo "Completely started? [y/N]"
+read -r CONTINUE
+
+if [ ! "${CONTINUE}" = y ]; then
+    echo abort
+fi
+
 sudo gitlab-rake gitlab:check SANITIZE=true
